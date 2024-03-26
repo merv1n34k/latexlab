@@ -1,0 +1,59 @@
+\ProvidesPackage{notesTitle}[2023/08/30 v.001 title setup for notes and varnotes classes]
+\RequirePackage{graphicx}
+\RequirePackage{wallpaper}
+\RequirePackage{ifthen}
+\RequirePackage{geometry}
+
+\newcommand*{\cover}[1]{%
+  \ifthenelse{\numexpr#1<6}%
+    {\gdef\@cover{\ThisLLCornerWallPaper{1.1}{titles/cover_#1.png}}}%
+    {\gdef\@cover{\ThisCenterWallPaper{1.1}{titles/cover_#1.png}}}%
+}
+\newcommand*{\@cover}{\ThisLLCornerWallPaper{1.1}{titles/cover_1.png}}
+
+% Add your project name
+%\newcommand*{\project}[1]{\gdef\@project{#1}}
+%\newcommand*{\@project}{Default project Text}
+
+% Add your university (optional)
+\newcommand*{\uni}[1]{\ifthenelse{\equal{#1}{}}{\gdef\@uni{Default University Text}}{\gdef\@uni{#1}}}
+\newcommand*{\@uni}{Default University Text}
+
+% Add your email adress (optional)
+\newcommand*{\email}[1]{\ifthenelse{\equal{#1}{}}{\gdef\@email{Your email}}{\gdef\@email{#1}}}
+\newcommand*{\@email}{Default email Text}
+
+% Add your supervisor (optional)
+\newcommand*{\supervisor}[1]{\gdef\@supervisor{#1}}
+\newcommand*{\@supervisor}{Default supervisor Text}
+
+%% Custom title setup
+\renewcommand*{\maketitle}{%
+\newgeometry{margin=2in} % Set layout for title
+
+% Use cover page background
+\@cover
+
+\begin{titlepage}
+\vspace*{\stretch{0.5}}
+\centering
+
+{\scshape\LARGE \@uni \par}
+%\vspace{1cm}
+%{\scshape\Large \@project \par}
+\vspace{1.5cm}
+{\huge\bfseries \@title \par}
+\vspace{2cm}
+{\Large\itshape \@author \par}
+{\normalsize \@email \par}
+\vspace{1cm}
+{\normalsize Supervised by \par}
+{\normalsize \@supervisor \par}
+\vspace{1cm}
+{\large \@date \par}
+\vspace*{\stretch{2}}
+\end{titlepage}
+
+\restoregeometry % Restore document layout
+}
+\endinput

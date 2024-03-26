@@ -1,0 +1,35 @@
+%% Adds \incfig command to include inkscape pdf_tex figures
+\ProvidesPackage{incfigs}[2023/09/02 v.001 Input Inkscape images easily]
+
+%% Was taken from (https://castel.dev/post/lecture-notes-2)
+\RequirePackage{xifthen}
+\RequirePackage{pdfpages}
+\RequirePackage{import}
+\RequirePackage{graphicx}
+
+% Initialize \@figpath to the current directory
+\newcommand*{\@figpath}{.}
+\newcommand*{\figpath}[1]{\gdef\@figpath{#1}}
+
+% normal figure
+\newcommand*{\incfig}[2][1]{%
+    \def\svgwidth{#1\textwidth}
+    \import{\@figpath}{#2.pdf_tex}
+}
+
+% full width figure
+\newcommand*{\fullwidthincfig}[2][0.90]{%
+    \def\svgwidth{#1\paperwidth}
+    \import{\@figpath}{#2.pdf_tex}
+}
+
+% small figure for in text use
+\newcommand*{\minifig}[2]{%
+    \def\svgwidth{#1}%
+    \begingroup%
+    \setbox0=\hbox{\import{\@figpath}{#2.pdf_tex}}%
+    \parbox{\wd0}{\box0}\endgroup%
+    \hspace*{0.2cm}
+}
+
+
